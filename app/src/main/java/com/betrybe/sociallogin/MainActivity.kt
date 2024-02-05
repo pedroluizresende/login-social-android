@@ -3,6 +3,7 @@ package com.betrybe.sociallogin
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Patterns
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
@@ -27,11 +28,21 @@ class MainActivity : AppCompatActivity() {
         passwordTextInput.editText?.addTextChangedListener {
             validateFields()
         }
+
+        loginButon.setOnClickListener {
+            validateEmail()
+        }
     }
 
     private fun validateFields() {
         val email = emailTextInput.editText?.text.toString()
         val password = passwordTextInput.editText?.text.toString()
         loginButon.isEnabled = email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    private fun validateEmail() {
+        val email = emailTextInput.editText?.text.toString()
+        val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        emailTextInput.error = if (isValid) "" else "Email inválido"
     }
 }
