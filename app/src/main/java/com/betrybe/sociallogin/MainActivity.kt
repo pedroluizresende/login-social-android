@@ -1,5 +1,6 @@
 package com.betrybe.sociallogin
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Message
 import android.text.Editable
@@ -7,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         loginButon.setOnClickListener {
+            hideKeyboard()
             if (validateEmail() && validatePassword()) {
                 showSnackBar("Login efetuado com sucesso")
             }
@@ -60,5 +63,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSnackBar(message: String) {
         Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun hideKeyboard() {
+        val view: View? = this.currentFocus
+        if (view != null) {
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 }
